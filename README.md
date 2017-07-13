@@ -12,4 +12,7 @@ Modo Monitor
 Kali Linux
 
 ## Configuração do RPi
-1- Instale o sistema operacional do RPi num cartão microSD. 
+1 - Instale o Kali Linux operacional do RPi num cartão microSD. 
+![https://www.youtube.com/watch?v=844JPtMIZTM&t](Video para tutorial para instalação do Kali)
+![https://www.kali.org/downloads/](Download do Kali Linux para RPi)
+
