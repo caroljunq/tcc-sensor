@@ -14,8 +14,10 @@ serão processados em dados estatísticos, como o tráfego de pessoas.
 ##Conceitos
 
 ### Modo Monitor
+Normalmente, uma NIC (Network Interface Card - interface de rede) captura pacotes dos tipos managed e beacons que são originados por AP. Estes pacotes são transmitidos muitas vezes por segundo por APs para indicar quais redes estão realizando broadcasting. O modo monitor (monitor mode) é um modo de operação em que um NIC consegue capturar todos os tipos de pacotes sem estar associado a um AP. Dessa forma, é possível capturar todos os tipos, como os de probe request que são enviados de dispositivos móveis para pontos de acesso para saber quais redes próximas estão disponíveis para se conectar.
 
 ### Probe Request
+Dispositivos emitem a cada intervalo de tempo pacotes do tipo probe request para detectar redes e/ou APs ao redor mesmo estando associado a um rede.  Todos os APs que receberem, responderão ao dispositivo (probe response ou received), então o aparelho descobrirá as redes ao redor disponíveis para conexão. O sensor detecta este tipo de pacote.
 
 ## Especificações Técnicas
 * Raspberry Pi Model 3 B
