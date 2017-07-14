@@ -11,6 +11,17 @@ serão processados em dados estatísticos, como o tráfego de pessoas.
 * Modo Monitor
 * Kali Linux
 
+##Conceitos
+
+### Modo Monitor
+
+### Probe Request
+
+## Especificações Técnicas
+* Raspberry Pi Model 3 B
+* Antena Externa: Ralink MT601U
+
+
 ### Configuração do RPi
 1 - Instale o Kali Linux operacional do RPi num cartão microSD;
 
@@ -59,4 +70,29 @@ O Kali Linux possui tela para login e inicialização muito lenta, então é nec
 2- Vá até o diretório /etc/lightdm/lightdm.conf . Tire # (comentário) das linhas autologin-user e autologin-timeout.
 Coloque autologin-user=nomeusuario. Esta configuração é para realizar o autologin com o usuário desejado.
 
-3- Vá até /etc/pam.d/lightdm-autologin e coloque # na frente da linha auth required pam_succeed_if. 
+3- Vá até /etc/pam.d/lightdm-autologin e coloque # na frente da linha auth required pam_succeed_if.
+
+### Conectando o dongle/antena Wifi
+Desconecte o RPi da rede e coloque a o dongle Wifi que pode ser habilitado para o modo Monitor. Neste projeto, está sendo utilizado o modelo Ralink MT7601U.
+
+### Habilitar modo Monitor
+O adaptador Wifi precisa ter a capacidade de ser habilitado para o modo monitor. Para habilitá-lo, execute os comandos na ordem a seguir:
+
+1- ifconfig wlan2 down //desliga a interface de rede que representa a antena;
+
+2- iwconfig wlan2 mode monitor// coloca a interface no modo monitor;
+
+3- ifconfig wlan2 up//liga a interface de rede.
+
+### Rodando o Tshark
+O tshark é um protocolo que auxilia na análise de pacotes capturados. Para detectar os pacotes provenientes de
+dispositivos, o comando a ser rodado no terminal é:
+
+tshark -i wlan2 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.csv
+
+* -i --> interface
+* wlan2 --> interface de captura
+* wlan.fc.type_subtype eq 4 --> indica que pacotes do tipo probe request serão capturados
+* wlan.sa --> é o source address (mac do emissor do pacote)
+* frame.time --> instante em que o pacote é capturado
+*  > output.csv --> exporta pacotes capturados para um arquivo .csv
