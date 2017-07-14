@@ -51,7 +51,12 @@ pasta "chmod 777 mod";
 
 2- Instale o net-tools --> "apt-get install net-tools";
 
-3- Instale o gedit (não obrigatório) --> "apt-get install gedit"
-
 ### Configuração de Inicialização
 O Kali Linux possui tela para login e inicialização muito lenta, então é necessário configurá-lo para facilitar a execução dos scripts e tempo de detecção.
+
+1- Vá até a o diretório/arquivo /etc/systemd/system/network-online-target/networking.service . Abra o arquivo e altere o campo TimeOutStartSec de 5min para 5sec . Esta configuração é para reduzir o tempo de boot.
+
+2- Vá até o diretório /etc/lightdm/lightdm.conf . Tire # (comentário) das linhas autologin-user e autologin-timeout.
+Coloque autologin-user=nomeusuario. Esta configuração é para realizar o autologin com o usuário desejado.
+
+3- Vá até /etc/pam.d/lightdm-autologin e coloque # na frente da linha auth required pam_succeed_if. 
