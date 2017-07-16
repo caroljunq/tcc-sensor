@@ -16,6 +16,6 @@ function onRequest(request, response) {
     });
 }
 
-people.numPeople("output.txt");
+people.numPeople('output.txt');
 
 http.createServer(onRequest).listen(8080);
