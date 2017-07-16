@@ -55,7 +55,10 @@ function checkMacAddress(data) {
 }
 
 module.exports.numPeople = function(){
-  exec("tshark -i wlan0 -T fields -e wlan.sa -e frame.time > output.txt",puts);
+  exec("ifconfig wlan0 down",puts);
+  exec("iwconfig wlan0 mode monitor",puts);
+  exec("ifconfig wlan0 up",puts);
+  exec("tshark -i wlan0 -Y 'wlan.fc.type_subtype eq 4' -T fields -e wlan.sa -e frame.time > output.txt",puts);
   var input = fs.createReadStream("output.txt");
   readLines(input, checkMacAddress);
 }
