@@ -1,8 +1,7 @@
 # tcc-sensor
 Este repositório descreve a parte do sensor do repositorio tcc-gsmart.
 O sensor é um Raspberry Pi Model 3B com Kali Linux que detecta pessoas através de smartphones e redes sem fio pelo protocolo tshark.
-O objetivo é a partir da detecção gerar um arquivo formato .csv pque será enviado através de cURL para um servidor onde os dados
-serão processados em dados estatísticos, como o tráfego de pessoas.
+O objetivo é a partir da detecção gerar um arquivo com os pacotes porque será enviado através de cURL para um servidor onde os dados serão processados em dados estatísticos, como o tráfego de pessoas.
 
 ## Tecnologias e ferramentas utilizadas
 * Tshark
@@ -11,7 +10,7 @@ serão processados em dados estatísticos, como o tráfego de pessoas.
 * Modo Monitor
 * Kali Linux
 
-##Conceitos
+## Conceitos
 
 ### Modo Monitor
 Normalmente, uma NIC (Network Interface Card - interface de rede) captura pacotes dos tipos managed e beacons que são originados por AP. Estes pacotes são transmitidos muitas vezes por segundo por APs para indicar quais redes estão realizando broadcasting. O modo monitor (monitor mode) é um modo de operação em que um NIC consegue capturar todos os tipos de pacotes sem estar associado a um AP. Dessa forma, é possível capturar todos os tipos, como os de probe request que são enviados de dispositivos móveis para pontos de acesso para saber quais redes próximas estão disponíveis para se conectar.
@@ -64,7 +63,7 @@ pasta "chmod 777 mod";
 
 2- Instale o net-tools --> "apt-get install net-tools";
 
-### Configuração de Inicialização
+### Configuração de Inicialização do Kali
 O Kali Linux possui tela para login e inicialização muito lenta, então é necessário configurá-lo para facilitar a execução dos scripts e tempo de detecção.
 
 1- Vá até a o diretório/arquivo /etc/systemd/system/network-online-target/networking.service . Abra o arquivo e altere o campo TimeOutStartSec de 5min para 5sec . Esta configuração é para reduzir o tempo de boot.
@@ -90,17 +89,17 @@ O adaptador Wifi precisa ter a capacidade de ser habilitado para o modo monitor.
 O tshark é um protocolo que auxilia na análise de pacotes capturados. Para detectar os pacotes provenientes de
 dispositivos, o comando a ser rodado no terminal é:
 
-tshark -i wlan2 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.csv
+tshark -i wlan2 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.txt
 
 * -i --> interface
 * wlan2 --> interface de captura
 * wlan.fc.type_subtype eq 4 --> indica que pacotes do tipo probe request serão capturados
 * wlan.sa --> é o source address (mac do emissor do pacote)
 * frame.time --> instante em que o pacote é capturado
-*  >output.csv --> exporta pacotes capturados para um arquivo .csv
+*  > output.txt --> exporta pacotes capturados para um arquivo
 
 ### Instalando No cURL
-Para postar o arquivo .csv para o servidor, será necessário o curl. Para instalá-lo digite no terminal apt-get install curl.
+Para postar o arquivo para o servidor, será necessário o curl. Para instalá-lo digite no terminal apt-get install curl.
 
 ### Instalando Nodejs
 Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no terminal de comando digite:
