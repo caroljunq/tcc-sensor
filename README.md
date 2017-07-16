@@ -97,4 +97,14 @@ tshark -i wlan2 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.tim
 * wlan.fc.type_subtype eq 4 --> indica que pacotes do tipo probe request serão capturados
 * wlan.sa --> é o source address (mac do emissor do pacote)
 * frame.time --> instante em que o pacote é capturado
-*  > output.csv --> exporta pacotes capturados para um arquivo .csv
+*  >output.csv --> exporta pacotes capturados para um arquivo .csv
+
+### Instalando No cURL
+Para postar o arquivo .csv para o servidor, será necessário o curl. Para instalá-lo digite no terminal apt-get install curl.
+
+### Instalando Nodejs
+Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no terminal de comando digite:
+
+1- sudo curl -sL https://deb.nodesource/setup_6.x | sudo -E bash -
+
+2- sudo apt-get install -y nodejs
