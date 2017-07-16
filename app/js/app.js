@@ -1,10 +1,10 @@
 var fs = require('fs');
-var sys = require('sys')
-var exec = require('child_process').exec;
+var util = require('util')
+var exec = require('child_process').execSync;
 
 var macs = [];
 
-function puts(error, stdout, stderr) { sys.puts(stdout) }
+function puts(error, stdout, stderr) { util.puts(stdout) }
 
 
 /**
@@ -55,7 +55,7 @@ function checkMacAddress(data) {
 }
 
 module.exports.numPeople = function(){
-  exec("tshark -i wlan1 -T fields -e wlan.sa -e frame.time > output.txt");
+  exec("tshark -i wlan0 -T fields -e wlan.sa -e frame.time > output.txt",puts);
   var input = fs.createReadStream("output.txt");
   readLines(input, checkMacAddress);
 }
