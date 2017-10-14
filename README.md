@@ -4,6 +4,10 @@ O sensor é um Raspberry Pi Model 3B com Kali Linux que detecta pessoas através
 O objetivo é a partir da detecção gerar um arquivo formato .csv que será enviado através de cURL para um servidor onde os dados
 serão processados em dados estatísticos, como o tráfego de pessoas.
 
+* https://github.com/caroljunq/tcc-webserver --> web server
+* https://github.com/caroljunq/tcc-sensor --> sensor
+* https://github.com/caroljunq/tcc_gsmart --> paper
+
 ## Tecnologias e ferramentas utilizadas
 * Tshark
 * cURL
