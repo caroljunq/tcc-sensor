@@ -70,6 +70,8 @@ pasta "chmod 777 mod";
 
 3- Instale o curl --> "apt-get install curl"
 
+4- Instale o curl --> "apt-get install git"
+
 ### Configuração de Inicialização
 O Kali Linux possui tela para login e inicialização muito lenta, então é necessário configurá-lo para facilitar a execução dos scripts e tempo de detecção.
 
