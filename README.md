@@ -111,7 +111,7 @@ Para postar o arquivo .csv para o servidor, será necessário o curl. Para insta
 ### Instalando Nodejs
 Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no terminal de comando digite:
 
-1- sudo curl -sL https://deb.nodesource/setup_6.x | sudo -E bash -
+1- sudo curl -sL https://deb.nodesource/setup_8.x | sudo -E bash -
 
 2- sudo apt-get install -y nodejs
 
