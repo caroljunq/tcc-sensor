@@ -98,7 +98,7 @@ O adaptador Wifi precisa ter a capacidade de ser habilitado para o modo monitor.
 O tshark é um protocolo que auxilia na análise de pacotes capturados. Para detectar os pacotes provenientes de
 dispositivos, o comando a ser rodado no terminal é:
 
-tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.txt
+tshark -i wlan1 -a duration:3600 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.txt
 
 * -i --> interface
 * wlan1 --> interface de captura
@@ -106,6 +106,7 @@ tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.tim
 * wlan.sa --> é o source address (mac do emissor do pacote)
 * frame.time --> instante em que o pacote é capturado
 *  >output.csv --> exporta pacotes capturados para um arquivo .csv
+* duratinon --> tempo de captura que o tshark roda
 
 ### Instalando No cURL
 Para postar o arquivo .csv para o servidor, será necessário o curl. Para instalá-lo digite no terminal apt-get install curl.
