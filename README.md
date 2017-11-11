@@ -84,20 +84,20 @@ Desconecte o RPi da rede e coloque a o dongle Wifi que pode ser habilitado para 
 ### Habilitar modo Monitor
 O adaptador Wifi precisa ter a capacidade de ser habilitado para o modo monitor. Para habilitá-lo, execute os comandos na ordem a seguir:
 
-1- ifconfig wlan2 down //desliga a interface de rede que representa a antena;
+1- ifconfig wlan1 down //desliga a interface de rede que representa a antena;
 
-2- iwconfig wlan2 mode monitor// coloca a interface no modo monitor;
+2- iwconfig wlan1 mode monitor// coloca a interface no modo monitor;
 
-3- ifconfig wlan2 up//liga a interface de rede.
+3- ifconfig wlan1 up//liga a interface de rede.
 
 ### Rodando o Tshark
 O tshark é um protocolo que auxilia na análise de pacotes capturados. Para detectar os pacotes provenientes de
 dispositivos, o comando a ser rodado no terminal é:
 
-tshark -i wlan2 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.csv
+tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.txt
 
 * -i --> interface
-* wlan2 --> interface de captura
+* wlan1 --> interface de captura
 * wlan.fc.type_subtype eq 4 --> indica que pacotes do tipo probe request serão capturados
 * wlan.sa --> é o source address (mac do emissor do pacote)
 * frame.time --> instante em que o pacote é capturado
