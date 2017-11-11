@@ -98,7 +98,7 @@ O adaptador Wifi precisa ter a capacidade de ser habilitado para o modo monitor.
 O tshark é um protocolo que auxilia na análise de pacotes capturados. Para detectar os pacotes provenientes de
 dispositivos, o comando a ser rodado no terminal é:
 
-tshark -i wlan1 -a duration:3600 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time > output.txt
+tshark -i wlan1 -a duration:3600 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa -e frame.time -E separator=- > output.txt
 
 * -i --> interface
 * wlan1 --> interface de captura
