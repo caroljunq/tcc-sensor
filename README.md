@@ -68,6 +68,8 @@ pasta "chmod 777 mod";
 
 2- Instale o net-tools --> "apt-get install net-tools";
 
+3- Instale o curl --> "apt-get install curl"
+
 ### Configuração de Inicialização
 O Kali Linux possui tela para login e inicialização muito lenta, então é necessário configurá-lo para facilitar a execução dos scripts e tempo de detecção.
 
