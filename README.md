@@ -94,6 +94,7 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 ### Atualizando hora
 * 1- apt-get install ntp
 * 2- Mude os servers de /etc/ntp para 0.br.pool.ntp.org até o 3.br.pool.ntp.org
+* 3- Ligue o ntp como um serviço --> service ntp start
 
 ### Formatacao da Timezone
 * 1- dpkg-reconfigure tzdata (selecione America/Sao_Paulo)
@@ -102,6 +103,7 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 ### Mudando língua
 * 1- Mude o arquivo /etc/default/locale para LANG="pt_BR.utf8";
 * 2- No console, export LANG=pt_BR.utf8
+
 
 
 
