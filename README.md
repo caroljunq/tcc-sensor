@@ -118,6 +118,10 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 
 2- sudo apt-get install -y nodejs
 
+## Comando cURL
+* curl -X POST -F "file=@pathfile" URL
+* Dentro do node --> req.files.file.data.ToString();
+
 ## Links Tutoriais
 - https://scotch.io/tutorials/how-to-host-a-node-js-app-on-digital-ocean
 - https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets
