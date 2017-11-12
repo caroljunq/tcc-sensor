@@ -91,12 +91,14 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 * Dentro do node --> req.files.file.data.ToString();
 
 ## Configuração de serviços
-* Atualizando hora
-1- apt-get install ntp
-2- cat /etc/timezone
-3- gedit /etc/timezone (alterar para America/Sao_Paulo)
-4- export TZ=America/Sao_Paulo
-5- ntpdate -s br.pool.ntp.org
+### Atualizando hora
+* 1- apt-get install ntp
+* 2- cat /etc/timezone
+* 3- gedit /etc/timezone (alterar para America/Sao_Paulo)
+* 4- export TZ=America/Sao_Paulo
+* 5- ntpdate -s br.pool.ntp.org
+
+### Formatacao do relogio
 
 * Configurando ntp como serviço 
 
