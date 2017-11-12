@@ -29,38 +29,6 @@ Dispositivos emitem a cada intervalo de tempo pacotes do tipo probe request para
 
 
 ### Configuração do RPi
-1 - Instale o Kali Linux operacional do RPi num cartão microSD;
-
-* [Video para tutorial para instalação do Kali](https://www.youtube.com/watch?v=844JPtMIZTM&t)
-* [Download do Kali Linux para RPi](https://www.kali.org/downloads/)
-
-2- Coloque o microSD no RPi e ligue-o;
-
-3- Depois de carregado, realize os passos do tópico a seguir.
-
-### Configurando o Kali Linux
-1- Mude a senha de root com "passwd";
-
-2- Crie um usuário "adduser nomeusuario";
-
-3- Crie um diretorio para o projeto "mkdir nomediretorio"
-
-4- Dê permissão aos usuários/owners/groups para escrever, ler e executar nessa
-pasta "chmod 777 mod";
-
-* [Comandos de permissões](https://www.wired.com/2010/02/modify_user_permissions/)
-
-* [Permissões](http://www.yolinux.com/TUTORIALS/LinuxTutorialManagingGroups.html)
-
-5- Mude do root para o usuario criado "su nomeusuario";
-
-6- Conecte o RPi numa rede;
-
-7- Procure atualizações a serem feitas "apt-get update";
-
-8- Instale as atualizações "apt-get upgrade";
-
-9 - Depois que a etapa anterior acabou, reinicie o RPi;
 
 
 ### Instalando pacotes
@@ -121,6 +89,17 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 ## Comando cURL
 * curl -X POST -F "file=@pathfile" URL
 * Dentro do node --> req.files.file.data.ToString();
+
+## Configuração de serviços
+* Atualizando hora
+1- apt-get install ntp
+2- cat /etc/timezone
+3- gedit /etc/timezone (alterar para America/Sao_Paulo)
+4- export TZ=America/Sao_Paulo
+5- ntpdate -s br.pool.ntp.org
+
+* Configurando ntp como serviço 
+
 
 ## Links Tutoriais
 - https://scotch.io/tutorials/how-to-host-a-node-js-app-on-digital-ocean
