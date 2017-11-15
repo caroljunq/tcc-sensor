@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Este repositório descreve a parte do sensor do repositorio tcc-gsmart.\r O sensor é um Raspberry Pi Model 3B com Kali Linux que detecta pessoas através de smartphones e redes sem fio pelo protocolo tshark.\r O objetivo é a partir da detecção gerar um arquivo formato .csv pque será enviado através de cURL para um servidor onde os dados\r serão processados em dados estatísticos, como o tráfego de pessoas.",
   "main": "server.js",
-  "dependencies": {},
+  "dependencies": {
+    "child-process-promise": "^2.2.1",
+    "repeat": "0.0.6",
+    "request": "^2.83.0"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
