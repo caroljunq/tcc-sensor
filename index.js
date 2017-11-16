@@ -13,6 +13,9 @@ function scan() {
   let month = date.getMonth(); 
   let year   = date.getFullYear();
   let hour = date.getHours();
+  if(hour < 10){
+    hour = '0'+hour;
+  }
   let fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
 
   exec('tshark -i wlan1 -a duration:18 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa >'+ fileName)
