@@ -7,8 +7,6 @@ exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
 
-var count = 0;
-
 function scan() {
 
   let date = new Date();
@@ -16,8 +14,8 @@ function scan() {
   let month = date.getMonth(); 
   let year   = date.getFullYear();
   let hour = date.getHours();
-  let fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-0'+ count; 
-  ++count;
+  let fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour; 
+
   exec('tshark -i wlan1 -a duration:18 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa >'+ fileName).then( function (result){
   fs.readFile(fileName, "utf8", (err,data) => {
     let formData = {};
