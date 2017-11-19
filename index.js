@@ -7,6 +7,23 @@ exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
 
+
+fs.readdir('./', (err, files) => {
+  files.forEach(file =>{
+    let name = file.split('_');
+    if(name[0] == 'not-sent'){
+      
+      fs.readFile(file, "utf8", (err, data) =>{
+        let formData = {};
+        formData.file = data;
+        formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
+        request.post({url:"http://",formData: formData}, (err, res,body) => {});
+      })
+    }
+
+  })
+
+});
 function scan() {
   let date = new Date();
   let day = date.getDate();
@@ -24,7 +41,13 @@ function scan() {
         let formData = {};
         formData.file = data;
         formData.fileName = fileName;
-        request.post({url: 'http://', formData: formData}, (err,res,body) => {console.log(body)});     
+        request.post({url: 'http://', formData: formData}, (err,res,body) => {
+          if(!err){
+            fs.rename(fileName, 'sent_'+fileName, (err) => {});
+          }else{
+            fs.rename(fileName,'not-sent_'+fileName, (err) =>{})
+          }
+        });     
       });
     });	
 }
