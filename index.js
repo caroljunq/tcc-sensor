@@ -8,8 +8,7 @@ exec('ifconfig wlan1 down')
          .then(exec('ifconfig wlan1 up')));
 
 
-function scan() {
-
+function sendFiles(){
   fs.readdir('./', (err, files) => {
   files.forEach(file =>{
     let name = file.split('_');
@@ -30,7 +29,10 @@ function scan() {
   })
 
 });
-  
+}
+
+function scan() {
+  sendFiles();
   let date = new Date();
   let day = date.getDate();
   let month = date.getMonth(); 
