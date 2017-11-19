@@ -8,7 +8,9 @@ exec('ifconfig wlan1 down')
          .then(exec('ifconfig wlan1 up')));
 
 
-fs.readdir('./', (err, files) => {
+function scan() {
+
+  fs.readdir('./', (err, files) => {
   files.forEach(file =>{
     let name = file.split('_');
     if(name[0] == 'not-sent'){
@@ -17,14 +19,18 @@ fs.readdir('./', (err, files) => {
         let formData = {};
         formData.file = data;
         formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
-        request.post({url:"http://",formData: formData}, (err, res,body) => {});
+        request.post({url:"http://",formData: formData}, (err, res,body) => {
+          if(!err)
+            fs.rename(file,formData.fileName, (err) => {});
+
+        });
       })
     }
 
   })
 
 });
-function scan() {
+  
   let date = new Date();
   let day = date.getDate();
   let month = date.getMonth(); 
@@ -42,9 +48,7 @@ function scan() {
         formData.file = data;
         formData.fileName = fileName;
         request.post({url: 'http://', formData: formData}, (err,res,body) => {
-          if(!err){
-            fs.rename(fileName, 'sent_'+fileName, (err) => {});
-          }else{
+          if(err){
             fs.rename(fileName,'not-sent_'+fileName, (err) =>{})
           }
         });     
