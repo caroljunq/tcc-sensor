@@ -10,32 +10,28 @@ exec('ifconfig wlan1 down')
 
 function sendFiles(){
   fs.readdir('./', (err, files) => {
-  files.forEach(file =>{
-    let name = file.split('_');
-    if(name[0] == 'not-sent'){
-      
-      fs.readFile(file, "utf8", (err, data) =>{
-        let formData = {};
-        formData.file = data;
-        formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
-        request.post({url:"http://",formData: formData}, (err, res,body) => {
-          if(!err)
-            fs.rename(file,formData.fileName, (err) => {});
-
+    files.forEach(file =>{
+      let name = file.split('_');
+      if(name[0] == 'not-sent'){
+        fs.readFile(file, "utf8", (err, data) =>{
+          let formData = {};
+          formData.file = data;
+          formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
+          request.post({url:"http://",formData: formData}, (err, res,body) => {
+            if(!err)
+              fs.rename(file,formData.fileName, (err) => {});
+          });
         });
-      })
-    }
-
-  })
-
-});
+      }
+    })
+  });
 }
 
 function scan() {
   sendFiles();
   let date = new Date();
   let day = date.getDate();
-  let month = date.getMonth(); 
+  let month = date.getMonth() + 1; 
   let year   = date.getFullYear();
   let hour = date.getHours();
   if(hour < 10){
