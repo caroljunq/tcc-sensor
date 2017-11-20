@@ -13,7 +13,7 @@ exec('ifconfig wlan1 down')
 
 ///read all files in directory.If file name is the same that prefix, then try to send file to server.
 function sendFiles(prefix){
-    console.log('estou enviando arquivos eh'+ fileText)
+    console.log('estou enviando arquivos eh')
     fs.readdir('./', (err, files) => {
         files.forEach(file =>{
             let name = file.split('_');
