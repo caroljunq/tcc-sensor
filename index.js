@@ -6,8 +6,6 @@ const events = require('events');
 
 let eventEmitter = new events.EventEmitter();
 
-let fileText = '';
-
 exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
@@ -27,7 +25,7 @@ function sendFiles(prefix){
                     request.post({url:"http://",formData}, (err, res, body) =>{
                         if(!err){
                             fs.rename(file, 'sent_'+file, (err) => {});
-                        }else{
+                        }else if(err && prefix != 'not-sent'){
                             fs.rename(file,'not-sent_'+file, (err) =>{})
                         }
                     });
@@ -37,7 +35,7 @@ function sendFiles(prefix){
     });
 }
 
-function createFile(){
+function createFile(fileText){
     let date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -47,7 +45,6 @@ function createFile(){
       hour = '0'+hour;
     }
     let fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
-    console.log('o texto eh'+ fileText)
     fs.writeFile(fileName, fileText, (err) => {
         console.log('escrevi o texto ')
         if(err) {
@@ -59,10 +56,10 @@ function createFile(){
     });
 }
 
-function scan() {
+function scan(fileText) {
   exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
     .then((result) => {
-        console.log('estou dando append no texto ')
+        console.log('estou dando append no texto')
         fileText += result.stdout;
     }).catch((err) => {
         return;
@@ -71,7 +68,8 @@ function scan() {
 
 //repeat Tshark process
 function repeatScan(){
-    Repeat(scan).every(20, 'sec').for(3200, 'minutes').start.now().then(createFile); //every 20 seconds
+    let fileText = '';
+    Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now().then(() => {createFile(fileText)}); //every 20 seconds
 }
 
 eventEmitter.on('fileCreated', () => {sendFiles('LTIA')});
