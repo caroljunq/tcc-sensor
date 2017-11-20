@@ -1,15 +1,15 @@
 const Repeat = require('repeat');
-const exec = require('child-process-promise').exec;
+// const exec = require('child-process-promise').exec;
 const request = require('request');
 const fs = require('fs');
 const events = require('events');
-const exec2 = require('child_process').exec;
+const spawn = require('child_process').spawn;
 
 let eventEmitter = new events.EventEmitter();
 
-exec('ifconfig wlan1 down')
-    .then(exec('iwconfig wlan1 mode monitor')
-         .then(exec('ifconfig wlan1 up')));
+// exec('ifconfig wlan1 down')
+//     .then(exec('iwconfig wlan1 mode monitor')
+//          .then(exec('ifconfig wlan1 up')));
 
 let texto = '';
 // ///read all files in directory.If file name is the same that prefix, then try to send file to server.
@@ -57,7 +57,7 @@ let texto = '';
 // }
 
 let scan = () => {
-  return exec2('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa');
+  return spawn('tshark',['-i', 'wlan1', '-Y', '"wlan.fc.type_subtype eq 4"','-T','fields','-e','wlan.sa']);
 
 }
 
