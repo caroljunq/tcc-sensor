@@ -15,6 +15,7 @@ exec('ifconfig wlan1 down')
 
 ///read all files in directory.If file name is the same that prefix, then try to send file to server.
 function sendFiles(prefix){
+    console.log('estou enviando arquivos eh'+ fileText)
     fs.readdir('./', (err, files) => {
         files.forEach(file =>{
             let name = file.split('_');
@@ -39,15 +40,16 @@ function sendFiles(prefix){
 function createFile(){
     let date = new Date();
     let day = date.getDate();
-    let month = date.getMonth();
+    let month = date.getMonth() + 1;
     let year   = date.getFullYear();
     let hour = date.getHours();
     if(hour < 10){
       hour = '0'+hour;
     }
     let fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
-
+    console.log('o texto eh'+ fileText)
     fs.writeFile(fileName, fileText, (err) => {
+        console.log('escrevi o texto ')
         if(err) {
             return console.log(err);
         }
@@ -60,6 +62,7 @@ function createFile(){
 function scan() {
   exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
     .then((result) => {
+        console.log('estou dando append no texto ')
         fileText += result.stdout;
     }).catch((err) => {
         return;
@@ -68,12 +71,10 @@ function scan() {
 
 //repeat Tshark process
 function repeatScan(){
-    Repeat(scan).every(20, 'sec').for(3200, 'minutes').start.now(); //every 20 seconds
+    Repeat(scan).every(20, 'sec').for(3200, 'minutes').start.now().then(createFile); //every 20 seconds
 }
 
 eventEmitter.on('fileCreated', () => {sendFiles('LTIA')});
-
-Repeat(createFile).every(3400, 'sec').for(2, 'minutes').start.wait(3300, 'sec'); //every 1 hour, for X Hours
 
 Repeat(() => {sendFiles('not-sent')}).every(1200, 'sec').for(2, 'minutes').start.now(); // every 30 minutes, for x hours
 
