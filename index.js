@@ -11,19 +11,20 @@ exec('ifconfig wlan1 down')
          .then(exec('ifconfig wlan1 up')));
 
 function sendNewFile(){
-    fs.readFile(fileName, "utf8", (err, data) =>{
-        let formData = {};
-        formData.file = data;
-        formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
-        request.post({url:"http://",formData}, (err, res, body) =>{
-            if(!err){
-                fs.rename(fileName, 'sent_'+file, (err) => {});
-            }else if(err){
-                fs.rename(fileName,'not-sent_'+file, (err) =>{})
-            }
-            startDate();
-        });
-    });
+    // fs.readFile(fileName, "utf8", (err, data) =>{
+    //     let formData = {};
+    //     formData.file = data;
+    //     formData.fileName = fileName;
+    //     request.post({url:"http://",formData: formData}, (err, res, body) =>{
+    //         if(!err){
+    //             fs.rename(fileName, 'sent_'+fileName, (err) => {});
+    //         }else if(err){
+    //             fs.rename(fileName,'not-sent_'+fileName , (err) =>{})
+    //         }
+    //         startDate();
+    //     });
+    // });
+    console.log('enviei arquivo')
 }
 ///read all files in directory.If file name is the same that prefix, then try to send file to server.
 function sendAllFiles(){
@@ -58,19 +59,16 @@ function startDate(){
     lastHour = hour;
     fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
     fs.writeFile(fileName, '', (err) => {});
+    Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now().then(sendNewFile);
 }
 
 function scan() {
   exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
     .then((result) => {
-        let date = new Date();
-        if(date.getHours() == lastHour){
-            fs.appendFile(fileName,result.stdout, (err) => {});
-        }else{
-            sendNewFile();
-        }
+        fs.appendFile(fileName,result.stdout, (err) => {})
     });
 }
 
-Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now(); //every 20 seconds
-Repeat(sendAllFiles).every(1200, 'sec').for(300, 'minutes').start.now();
+startDate();
+ //every 20 seconds
+//Repeat(sendAllFiles).every(1200, 'sec').for(300, 'minutes').start.now();
