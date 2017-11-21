@@ -57,7 +57,7 @@ function startDate(){
       hour = '0'+hour;
     }
     lastHour = hour;
-    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
+    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00'+day.getMinutes();
     fs.writeFile(fileName, '', (err) => {});
     Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now().then(sendNewFile);
 }
@@ -69,6 +69,6 @@ function scan() {
     });
 }
 
-startDate();
+Repeat(startDate).every(5, 'minutes').for(10, 'minutes').start.now();
  //every 20 seconds
 //Repeat(sendAllFiles).every(1200, 'sec').for(300, 'minutes').start.now();
