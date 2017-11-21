@@ -3,7 +3,6 @@ const exec = require('child-process-promise').exec;
 const request = require('request');
 const fs = require('fs');
 const events = require('events');
-const spawn = require('child_process').spawn;
 
 let eventEmitter = new events.EventEmitter();
 
@@ -11,10 +10,10 @@ exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
 
-let fileText = '';
-// read all files in directory.If file name is the same that prefix, then try to send file to server.
+
+///read all files in directory.If file name is the same that prefix, then try to send file to server.
 function sendFiles(prefix){
-    console.log('estou enviando arquivos eh')
+    console.log('estou enviando arquivos eh'+ fileText)
     fs.readdir('./', (err, files) => {
         files.forEach(file =>{
             let name = file.split('_');
@@ -53,26 +52,19 @@ function createFile(fileText){
         }
         fileText = '';
         eventEmitter.emit('fileCreated');
-        repeatScan();
     });
 }
 
-function scan(){
-    return spawn('tshark',['-i','wlan1','-Y','wlan.fc.type_subtype eq 4','-T','fields','-e','wlan.sa');
+function scan(fileText) {
+  exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
+    .then((result) => {
+        console.log('estou dando append no texto')
+        fileText += result.stdout;
+    });
 }
 
-function startScan(){
-    let scanListener = scan();
 
-    scanListener.stdout.on('data', (data) =>{
-        fileText += data.toString();
-        console.log(fileText);
-    })
-}
-
+Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now(); //every 20 seconds
+Repeat(createFile).every(20, 'sec').for(2, 'minutes').start.in(2,'minutes');
 eventEmitter.on('fileCreated', () => {sendFiles('LTIA')});
-
-Repeat(startScan).every(20, 'sec').for(2, 'minutes').start.now();
-//
-// Repeat(() => {sendFiles('not-sent')}).every(1200, 'sec').for(2, 'minutes').start.now(); // every 30 minutes, for x hours
-//
+Repeat(() => {sendFiles('not-sent')}).every(1200, 'sec').for(2, 'minutes').start.now(); // every 30 minutes, for x hours
