@@ -11,20 +11,19 @@ exec('ifconfig wlan1 down')
          .then(exec('ifconfig wlan1 up')));
 
 function sendNewFile(){
-    // fs.readFile(fileName, "utf8", (err, data) =>{
-    //     let formData = {};
-    //     formData.file = data;
-    //     formData.fileName = fileName;
-    //     request.post({url:"http://",formData: formData}, (err, res, body) =>{
-    //         if(!err){
-    //             fs.rename(fileName, 'sent_'+fileName, (err) => {});
-    //         }else if(err){
-    //             fs.rename(fileName,'not-sent_'+fileName , (err) =>{})
-    //         }
-    //         startDate();
-    //     });
-    // });
-    console.log('enviei arquivo')
+    console.log("vou enviar as"+new Date());
+    fs.readFile(fileName, "utf8", (err, data) =>{
+        let formData = {};
+        formData.file = data;
+        formData.fileName = fileName;
+        request.post({url:"http://",formData: formData}, (err, res, body) =>{
+            if(!err){
+                fs.rename(fileName, 'sent_'+fileName, (err) => {});
+            }else if(err){
+                fs.rename(fileName,'not-sent_'+fileName , (err) =>{})
+            }
+        });
+    });
 }
 ///read all files in directory.If file name is the same that prefix, then try to send file to server.
 function sendAllFiles(){
@@ -57,7 +56,7 @@ function startDate(){
       hour = '0'+hour;
     }
     lastHour = hour;
-    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00'+day.getMinutes();
+    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00'+date.getMinutes();
     fs.writeFile(fileName, '', (err) => {});
     Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now().then(sendNewFile);
 }
@@ -70,5 +69,5 @@ function scan() {
 }
 
 Repeat(startDate).every(5, 'minutes').for(10, 'minutes').start.now();
- //every 20 seconds
-//Repeat(sendAllFiles).every(1200, 'sec').for(300, 'minutes').start.now();
+
+Repeat(sendAllFiles).every(5, 'minutes').for(10, 'minutes').start.now();
