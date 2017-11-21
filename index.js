@@ -5,7 +5,7 @@ const fs = require('fs');
 const events = require('events');
 
 let eventEmitter = new events.EventEmitter();
-
+let fileText = '';
 exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
@@ -35,7 +35,7 @@ function sendFiles(prefix){
     });
 }
 
-function createFile(fileText){
+function createFile(){
     let date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
