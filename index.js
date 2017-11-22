@@ -4,22 +4,18 @@ const request = require('request');
 const fs = require('fs');
 
 let fileName = '';
-let lastHour;
 
 exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
          .then(exec('ifconfig wlan1 up')));
 
 function sendNewFile(){
-    console.log("vou enviar as"+new Date());
     fs.readFile(fileName, "utf8", (err, data) =>{
         let formData = {};
         formData.file = data;
         formData.fileName = fileName;
         request.post({url:"http://",formData: formData}, (err, res, body) =>{
-            if(!err){
-                fs.rename(fileName, 'sent_'+fileName, (err) => {});
-            }else if(err){
+            if(err){
                 fs.rename(fileName,'not-sent_'+fileName , (err) =>{})
             }
         });
@@ -36,6 +32,7 @@ function sendAllFiles(){
                     formData.file = data;
                     formData.fileName = name[1]+'_'+name[2]+'_'+name[3];
                     request.post({url:"http://",formData}, (err, res, body) =>{
+                        console.log(formData.fileName);
                         if(!err){
                             fs.rename(file, 'sent_'+file, (err) => {});
                         }
@@ -55,10 +52,9 @@ function startDate(){
     if(hour < 10){
       hour = '0'+hour;
     }
-    lastHour = hour;
-    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00'+date.getMinutes();
+    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
     fs.writeFile(fileName, '', (err) => {});
-    Repeat(scan).every(20, 'sec').for(2, 'minutes').start.now().then(sendNewFile);
+    Repeat(scan).every(60, 'sec').for(50, 'minutes').start.now().then(sendNewFile);
 }
 
 function scan() {
@@ -68,6 +64,6 @@ function scan() {
     });
 }
 
-Repeat(startDate).every(5, 'minutes').for(10, 'minutes').start.now();
+Repeat(startDate).every(60, 'minutes').for(300, 'minutes').start.now();
 
-Repeat(sendAllFiles).every(5, 'minutes').for(10, 'minutes').start.now();
+//Repeat(sendAllFiles).every(5, 'minutes').for(10, 'minutes').start.now();
