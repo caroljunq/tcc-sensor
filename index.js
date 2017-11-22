@@ -4,6 +4,7 @@ const request = require('request');
 const fs = require('fs');
 
 let fileName = '';
+let countScan = 0;
 
 exec('ifconfig wlan1 down')
     .then(exec('iwconfig wlan1 mode monitor')
@@ -44,6 +45,7 @@ function sendAllFiles(){
 }
 
 function startDate(){
+    countScan = 0;
     let date = new Date();
     let day = date.getDate();
     let month = date.getMonth() + 1;
@@ -54,14 +56,18 @@ function startDate(){
     }
     fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
     fs.writeFile(fileName, '', (err) => {});
-    Repeat(scan).every(60, 'sec').for(50, 'minutes').start.now().then(sendNewFile);
+    Repeat(scan).every(60, 'sec').for(50, 'minutes').start.now();
 }
 
-function scan() {
-  exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
-    .then((result) => {
-        fs.appendFile(fileName,result.stdout, (err) => {})
-    });
+function scan(){
+    exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
+        .then((result) => {
+            countScan++;
+            fs.appendFile(fileName,result.stdout, (err) => {
+                if(countScan == 50)
+                    sendNewFile();
+            })
+        });
 }
 
 Repeat(startDate).every(60, 'minutes').for(300, 'minutes').start.now();
