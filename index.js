@@ -6,9 +6,9 @@ const fs = require('fs');
 let fileName = '';
 let countScan = 0;
 
-exec('ifconfig wlan1 down')
-    .then(exec('iwconfig wlan1 mode monitor')
-         .then(exec('ifconfig wlan1 up')));
+exec('ifconfig wlan0 down')
+    .then(exec('iwconfig wlan0 mode monitor')
+         .then(exec('ifconfig wlan0 up')));
 
 function sendNewFile(){
     fs.readFile(fileName, "utf8", (err, data) =>{
@@ -62,7 +62,7 @@ function startDate(){
 }
 
 function scan(){
-    exec('tshark -i wlan1 -a duration:40 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa > temp')
+    exec('tshark -i wlan0 -a duration:40 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa > temp')
         .then((result) => {
             countScan++;
             fs.readFile('temp', "utf8", (err, data) =>{
