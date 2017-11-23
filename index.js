@@ -45,28 +45,32 @@ function sendAllFiles(){
 }
 
 function startDate(){
-    countScan = 0;
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year   = date.getFullYear();
-    let hour = date.getHours();
-    if(hour < 10){
-      hour = '0'+hour;
-    }
-    fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
-    fs.writeFile(fileName, '', (err) => {});
-    Repeat(scan).every(60, 'sec').for(50, 'minutes').start.now();
+    fs.writeFile('temp', '', (err) => {
+        countScan = 0;
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year   = date.getFullYear();
+        let hour = date.getHours();
+        if(hour < 10){
+          hour = '0'+hour;
+        }
+        fileName = 'LTIA_'+year+'-'+month+'-'+day+'_'+hour+'-00';
+        fs.writeFile(fileName, '', (err) => {});
+        Repeat(scan).every(60, 'sec').for(50, 'minutes').start.now();
+    });
 }
 
 function scan(){
-    exec('tshark -i wlan1 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa')
+    exec('tshark -i wlan1 -a duration:40 -Y "wlan.fc.type_subtype eq 4" -T fields -e wlan.sa > temp')
         .then((result) => {
             countScan++;
-            fs.appendFile(fileName,result.stdout, (err) => {
-                if(countScan == 50)
-                    sendNewFile();
-            })
+            fs.readFile('temp', "utf8", (err, data) =>{
+                fs.appendFile(fileName,data, (err) => {
+                    if(countScan == 50)
+                        sendNewFile();
+                });
+            });
         });
 }
 
