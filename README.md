@@ -109,6 +109,7 @@ Para a futura aplicação será necessário o uso do Nodejs, para instalá-lo no
 * 1- curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
 * 2- export NVM_DIR="$HOME/.nvm"
      [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm  
+    2a - export NVM_NODEJS_ORG_MIRROR=http://nodejs.org/dis
 * 3- command -v nvm
 * 4- nvm install node
 * 5- nvm use node 
